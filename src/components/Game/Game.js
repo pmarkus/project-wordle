@@ -2,18 +2,27 @@ import React from "react";
 
 import { sample } from "../../utils";
 import { WORDS } from "../../data";
+import Banner from "../Banner/Banner";
 import GuessInput from "../GuessInput/GuessInput";
 import GuessBoard from "../GuessBoard/GuessBoard";
 import { checkGuess } from "../../game-helpers";
 import { NUM_OF_GUESSES_ALLOWED } from "../../constants.js";
 
-// Pick a random word on every pageload.
-const answer = sample(WORDS);
-// To make debugging easier, we'll log the solution in the console.
-console.info({ answer });
-
 function Game() {
+  const [answer, setAnswer] = React.useState(generateAnswer);
   const [guesses, setGuesses] = React.useState([]);
+
+  function generateAnswer() {
+    const answer = sample(WORDS);
+    // To make debugging easier, we'll log the solution in the console.
+    console.info({ answer });
+    return answer;
+  }
+
+  function handleRestart() {
+    setAnswer(generateAnswer());
+    setGuesses([]);
+  }
 
   function hasWon(guesses, answer) {
     if (guesses.length === 0) {
@@ -40,18 +49,23 @@ function Game() {
       <GuessBoard guesses={guesses} answer={answer} />
       <GuessInput
         handleGuess={handleGuess}
-        disabled={hasWon(guesses, answer) || hasLost(guesses)}
+        disabled={hasWon(guesses, answer) || hasLost(guesses, answer)}
       />
       {hasWon(guesses, answer) && (
-        <div className="happy banner">
-          <strong>Congratulations!</strong> Got it in{" "}
-          <strong>{`${guesses.length} guesses`}</strong>
-        </div>
+        <Banner
+          type="happy"
+          guesses={guesses}
+          answer={answer}
+          handleRestart={handleRestart}
+        />
       )}
       {hasLost(guesses, answer) && (
-        <div className="sad banner">
-          Sorry, the correct answer is <strong>{answer}</strong>
-        </div>
+        <Banner
+          type="sad"
+          guesses={guesses}
+          answer={answer}
+          handleRestart={handleRestart}
+        />
       )}
     </>
   );

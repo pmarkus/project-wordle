@@ -176,6 +176,19 @@ h1 {
   will-change: transform;
 }
 
+.bannerButton {
+  position: relative;
+  place-content: center;
+  padding: 8px;
+  margin-left: 32;
+  border: 2px solid var(--color-gray-700);
+  border-radius: var(--radius);
+  border-radius: 20;
+  background-color: gray;
+  box-shadow: 4px 4px 6px black;
+  font-size: 2rem;
+}
+
 .happy.banner {
   background: var(--color-success);
   color: white;
