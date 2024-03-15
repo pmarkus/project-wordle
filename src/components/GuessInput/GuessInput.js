@@ -5,7 +5,7 @@ function GuessInput({ handleGuess }) {
 
   return (
     <form
-      class="guess-input-wrapper"
+      className="guess-input-wrapper"
       onSubmit={(event) => {
         event.preventDefault();
         handleGuess(guess);
