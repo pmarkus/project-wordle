@@ -1,10 +1,18 @@
 import React from "react";
+import { range } from "../../utils";
+import { NUM_OF_GUESSES_ALLOWED } from "../../constants.js";
 
 function GuessBoard({ guesses }) {
   return (
     <div className="guess-results">
-      {guesses.map(({ id, label }) => (
-        <p key={id}>{label}</p>
+      {range(0, NUM_OF_GUESSES_ALLOWED).map((y) => (
+        <p className="guess" key={y}>
+          {range(0, 5).map((x) => (
+            <span className="cell" key={x}>
+              {guesses.length > y && guesses[y].label[x]}
+            </span>
+          ))}
+        </p>
       ))}
     </div>
   );
